@@ -66,8 +66,9 @@ Dedicated screen showing detailed item information with options to edit or delet
 #### 1. Navigation Setup (6 Points)
 **Implementation**: Single Activity with NavDisplay API
 
+**File:** `app/src/main/java/com/mercel/inventoryapp/navigation/NavigationRoutes.kt`
+
 ```kotlin
-// File: [app/src/main/java/com/mercel/inventoryapp/navigation/NavigationRoutes.kt](app/src/main/java/com/mercel/inventoryapp/navigation/NavigationRoutes.kt)
 sealed class NavigationRoutes(val route: String) {
     object Login : NavigationRoutes("login")
     object Home : NavigationRoutes("home")
@@ -77,8 +78,9 @@ sealed class NavigationRoutes(val route: String) {
 }
 ```
 
+**File:** `app/src/main/java/com/mercel/inventoryapp/navigation/InventoryNavigation.kt`
+
 ```kotlin
-// File: [app/src/main/java/com/mercel/inventoryapp/navigation/InventoryNavigation.kt](app/src/main/java/com/mercel/inventoryapp/navigation/InventoryNavigation.kt)
 @Composable
 fun InventoryNavigation(navController: NavHostController, startDestination: String) {
     NavHost(
@@ -97,8 +99,9 @@ fun InventoryNavigation(navController: NavHostController, startDestination: Stri
 #### 2. Bottom Navigation Bar (6 Points)
 **Implementation**: Material Design 3 bottom navigation
 
+**File:** `app/src/main/java/com/mercel/inventoryapp/components/BottomNavigationBar.kt`
+
 ```kotlin
-// File: [app/src/main/java/com/mercel/inventoryapp/components/BottomNavigationBar.kt](app/src/main/java/com/mercel/inventoryapp/components/BottomNavigationBar.kt)
 @Composable
 fun BottomNavigationBar(navController: NavController) {
     NavigationBar {
@@ -121,8 +124,9 @@ fun BottomNavigationBar(navController: NavController) {
 #### 3. Hidden Navigation on Login (2 Points)
 **Implementation**: Conditional bottom navigation visibility
 
+**File:** `app/src/main/java/com/mercel/inventoryapp/MainActivity.kt`
+
 ```kotlin
-// File: [app/src/main/java/com/mercel/inventoryapp/MainActivity.kt](app/src/main/java/com/mercel/inventoryapp/MainActivity.kt)
 @Composable
 fun InventoryApp() {
     val navController = rememberNavController()
@@ -145,8 +149,9 @@ fun InventoryApp() {
 #### 4. Auto-Login with DataStore (4 Points)
 **Implementation**: Persistent login state using DataStore API
 
+**File:** `app/src/main/java/com/mercel/inventoryapp/data/datastore/UserPreferences.kt`
+
 ```kotlin
-// File: [app/src/main/java/com/mercel/inventoryapp/data/datastore/UserPreferences.kt](app/src/main/java/com/mercel/inventoryapp/data/datastore/UserPreferences.kt)
 class UserPreferences(private val context: Context) {
     companion object {
         private val IS_LOGGED_IN = booleanPreferencesKey("is_logged_in")
@@ -166,8 +171,9 @@ class UserPreferences(private val context: Context) {
 }
 ```
 
+**File:** `app/src/main/java/com/mercel/inventoryapp/features/login/viewmodel/LoginViewModel.kt`
+
 ```kotlin
-// File: [app/src/main/java/com/mercel/inventoryapp/features/login/viewmodel/LoginViewModel.kt](app/src/main/java/com/mercel/inventoryapp/features/login/viewmodel/LoginViewModel.kt)
 fun login() {
     viewModelScope.launch {
         try {
@@ -185,8 +191,9 @@ fun login() {
 #### Data Persistence - Repository Pattern
 **Implementation**: Singleton repository with Room-like interface
 
+**File:** `app/src/main/java/com/mercel/inventoryapp/data/repository/InMemoryInventoryRepository.kt`
+
 ```kotlin
-// File: [app/src/main/java/com/mercel/inventoryapp/data/repository/InMemoryInventoryRepository.kt](app/src/main/java/com/mercel/inventoryapp/data/repository/InMemoryInventoryRepository.kt)
 class InMemoryInventoryRepository private constructor() {
     private val items = MutableStateFlow<List<InventoryItem>>(createSampleData())
     
@@ -213,8 +220,9 @@ class InMemoryInventoryRepository private constructor() {
 #### 5. Item Insertion (4 Points)
 **Implementation**: Add new inventory items with validation
 
+**File:** `app/src/main/java/com/mercel/inventoryapp/features/itemlist/viewmodel/ItemListViewModel.kt`
+
 ```kotlin
-// File: [app/src/main/java/com/mercel/inventoryapp/features/itemlist/viewmodel/ItemListViewModel.kt](app/src/main/java/com/mercel/inventoryapp/features/itemlist/viewmodel/ItemListViewModel.kt)
 fun addItem() {
     val currentState = _uiState.value
     
@@ -249,8 +257,9 @@ fun addItem() {
 #### 6. Item Editing (4 Points)
 **Implementation**: Edit existing items with 4-field form
 
+**File:** `app/src/main/java/com/mercel/inventoryapp/features/itemlist/viewmodel/ItemListViewModel.kt`
+
 ```kotlin
-// File: [app/src/main/java/com/mercel/inventoryapp/features/itemlist/viewmodel/ItemListViewModel.kt](app/src/main/java/com/mercel/inventoryapp/features/itemlist/viewmodel/ItemListViewModel.kt)
 fun updateItem() {
     val currentState = _uiState.value
     val item = currentState.editingItem ?: return
@@ -277,8 +286,9 @@ fun updateItem() {
 #### 7. Item Deletion (3 Points)
 **Implementation**: Delete items with confirmation
 
+**File:** `app/src/main/java/com/mercel/inventoryapp/features/itemlist/viewmodel/ItemListViewModel.kt`
+
 ```kotlin
-// File: [app/src/main/java/com/mercel/inventoryapp/features/itemlist/viewmodel/ItemListViewModel.kt](app/src/main/java/com/mercel/inventoryapp/features/itemlist/viewmodel/ItemListViewModel.kt)
 fun deleteItem(item: InventoryItem) {
     viewModelScope.launch {
         try {
@@ -295,8 +305,9 @@ fun deleteItem(item: InventoryItem) {
 #### 8. WorkManager + Retrofit Joke Fetching (7 Points)
 **Implementation**: Periodic background task with API integration
 
+**File:** `app/src/main/java/com/mercel/inventoryapp/data/workmanager/JokeFetchWorker.kt`
+
 ```kotlin
-// File: [app/src/main/java/com/mercel/inventoryapp/data/workmanager/JokeFetchWorker.kt](app/src/main/java/com/mercel/inventoryapp/data/workmanager/JokeFetchWorker.kt)
 class JokeFetchWorker(context: Context, params: WorkerParameters) : CoroutineWorker(context, params) {
     private val jokeRepository = JokeRepository(RetrofitClient.jokeApiService)
     
@@ -317,16 +328,18 @@ class JokeFetchWorker(context: Context, params: WorkerParameters) : CoroutineWor
 }
 ```
 
+**File:** `app/src/main/java/com/mercel/inventoryapp/data/api/JokeApiService.kt`
+
 ```kotlin
-// File: [app/src/main/java/com/mercel/inventoryapp/data/api/JokeApiService.kt](app/src/main/java/com/mercel/inventoryapp/data/api/JokeApiService.kt)
 interface JokeApiService {
     @GET("random_joke")
     suspend fun getRandomJoke(): Response<Joke>
 }
 ```
 
+**File:** `app/src/main/java/com/mercel/inventoryapp/features/home/viewmodel/HomeViewModel.kt`
+
 ```kotlin
-// File: [app/src/main/java/com/mercel/inventoryapp/features/home/viewmodel/HomeViewModel.kt](app/src/main/java/com/mercel/inventoryapp/features/home/viewmodel/HomeViewModel.kt)
 private fun schedulePeriodicJokeFetch() {
     val workRequest = PeriodicWorkRequestBuilder<JokeFetchWorker>(30, TimeUnit.MINUTES)
         .setConstraints(
