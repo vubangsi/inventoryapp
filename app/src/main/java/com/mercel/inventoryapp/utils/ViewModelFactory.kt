@@ -26,11 +26,11 @@ class ViewModelFactory(
             SettingsViewModel::class.java -> SettingsViewModel(UserPreferences(context)) as T
             ItemListViewModel::class.java -> {
                 require(category != null) { "Category required for ItemListViewModel" }
-                ItemListViewModel(InMemoryInventoryRepository(), category) as T
+                ItemListViewModel(InMemoryInventoryRepository.getInstance(), category) as T
             }
             ProductDetailViewModel::class.java -> {
                 require(itemId != null) { "ItemId required for ProductDetailViewModel" }
-                ProductDetailViewModel(InMemoryInventoryRepository(), itemId) as T
+                ProductDetailViewModel(InMemoryInventoryRepository.getInstance(), itemId) as T
             }
             else -> throw IllegalArgumentException("Unknown ViewModel class: ${modelClass.name}")
         }

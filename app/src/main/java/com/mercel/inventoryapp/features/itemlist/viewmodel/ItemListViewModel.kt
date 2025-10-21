@@ -103,4 +103,99 @@ class ItemListViewModel(
     fun clearError() {
         _uiState.value = _uiState.value.copy(errorMessage = null)
     }
+    
+    fun deleteItem(item: InventoryItem) {
+        viewModelScope.launch {
+            try {
+                inventoryRepository.deleteItem(item)
+            } catch (e: Exception) {
+                _uiState.value = _uiState.value.copy(
+                    errorMessage = "Failed to delete item: ${e.message}"
+                )
+            }
+        }
+    }
+    
+    fun showEditDialog(item: InventoryItem) {
+        _uiState.value = _uiState.value.copy(
+            showEditDialog = true,
+            editingItem = item,
+            editItemName = item.name,
+            editItemCategory = item.category.name,
+            editItemPrice = item.price.toString(),
+            editItemQuantity = item.quantity.toString()
+        )
+    }
+    
+    fun hideEditDialog() {
+        _uiState.value = _uiState.value.copy(
+            showEditDialog = false,
+            editingItem = null,
+            editItemName = "",
+            editItemCategory = "",
+            editItemPrice = "",
+            editItemQuantity = ""
+        )
+    }
+    
+    fun updateEditName(name: String) {
+        _uiState.value = _uiState.value.copy(editItemName = name)
+    }
+    
+    fun updateEditCategory(category: String) {
+        _uiState.value = _uiState.value.copy(editItemCategory = category)
+    }
+    
+    fun updateEditPrice(price: String) {
+        _uiState.value = _uiState.value.copy(editItemPrice = price)
+    }
+    
+    fun updateEditQuantity(quantity: String) {
+        _uiState.value = _uiState.value.copy(editItemQuantity = quantity)
+    }
+    
+    fun updateItem() {
+        val currentState = _uiState.value
+        val item = currentState.editingItem ?: return
+        
+        if (currentState.editItemName.isBlank()) {
+            _uiState.value = currentState.copy(errorMessage = "Item name cannot be empty")
+            return
+        }
+        
+        val price = currentState.editItemPrice.toDoubleOrNull()
+        if (price == null || price < 0) {
+            _uiState.value = currentState.copy(errorMessage = "Please enter a valid price")
+            return
+        }
+        
+        val quantity = currentState.editItemQuantity.toIntOrNull()
+        if (quantity == null || quantity < 0) {
+            _uiState.value = currentState.copy(errorMessage = "Please enter a valid quantity")
+            return
+        }
+        
+        val categoryEnum = try {
+            ItemCategory.valueOf(currentState.editItemCategory.uppercase())
+        } catch (e: Exception) {
+            ItemCategory.valueOf(category.name) // fallback to current category
+        }
+        
+        viewModelScope.launch {
+            try {
+                val updatedItem = item.copy(
+                    name = currentState.editItemName,
+                    category = categoryEnum,
+                    price = price,
+                    quantity = quantity
+                )
+                inventoryRepository.updateItem(updatedItem)
+                hideEditDialog()
+            } catch (e: Exception) {
+                _uiState.value = _uiState.value.copy(
+                    errorMessage = "Failed to update item: ${e.message}"
+                )
+            }
+        }
+    }
 }

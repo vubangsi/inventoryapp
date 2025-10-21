@@ -6,10 +6,49 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.map
 
-class InMemoryInventoryRepository {
+class InMemoryInventoryRepository private constructor() {
     
-    private val items = MutableStateFlow<List<InventoryItem>>(emptyList())
-    private var nextId = 1
+    private val items = MutableStateFlow<List<InventoryItem>>(createSampleData())
+    private var nextId = 4 // Starting from 4 since we have 3 sample items
+    
+    companion object {
+        @Volatile
+        private var INSTANCE: InMemoryInventoryRepository? = null
+        
+        fun getInstance(): InMemoryInventoryRepository {
+            return INSTANCE ?: synchronized(this) {
+                val instance = InMemoryInventoryRepository()
+                INSTANCE = instance
+                instance
+            }
+        }
+    }
+    
+    private fun createSampleData(): List<InventoryItem> {
+        return listOf(
+            InventoryItem(
+                id = 1,
+                name = "iPad",
+                category = ItemCategory.ELECTRONICS,
+                price = 950.0,
+                quantity = 1
+            ),
+            InventoryItem(
+                id = 2,
+                name = "T-Shirt",
+                category = ItemCategory.CLOTHING,
+                price = 25.0,
+                quantity = 5
+            ),
+            InventoryItem(
+                id = 3,
+                name = "Android Programming Book",
+                category = ItemCategory.BOOKS,
+                price = 45.0,
+                quantity = 2
+            )
+        )
+    }
     
     fun getAllItems(): Flow<List<InventoryItem>> = items
     

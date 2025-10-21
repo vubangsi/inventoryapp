@@ -28,6 +28,7 @@ fun HomeScreen(
     LazyColumn(
         modifier = Modifier
             .fillMaxSize()
+            .statusBarsPadding()
             .padding(16.dp),
         verticalArrangement = Arrangement.spacedBy(16.dp)
     ) {
@@ -97,6 +98,12 @@ fun HomeScreen(
                 onClick = { onCategoryClick(category) }
             )
         }
+        
+        item {
+            SettingsCard(
+                onClick = onSettingsClick
+            )
+        }
     }
 }
 
@@ -119,6 +126,30 @@ private fun CategoryCard(
         ) {
             Text(
                 text = category.name,
+                style = MaterialTheme.typography.bodyLarge
+            )
+        }
+    }
+}
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+private fun SettingsCard(
+    onClick: () -> Unit
+) {
+    Card(
+        onClick = onClick,
+        modifier = Modifier.fillMaxWidth(),
+        elevation = CardDefaults.cardElevation(defaultElevation = 2.dp)
+    ) {
+        Box(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(24.dp),
+            contentAlignment = Alignment.Center
+        ) {
+            Text(
+                text = "SETTINGS",
                 style = MaterialTheme.typography.bodyLarge
             )
         }

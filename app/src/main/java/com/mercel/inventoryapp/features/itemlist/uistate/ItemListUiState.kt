@@ -7,7 +7,13 @@ data class ItemListUiState(
     val isLoading: Boolean = false,
     val errorMessage: String? = null,
     val showAddDialog: Boolean = false,
+    val showEditDialog: Boolean = false,
+    val editingItem: InventoryItem? = null,
     val newItemName: String = "",
     val newItemPrice: String = "",
-    val newItemQuantity: String = ""
+    val newItemQuantity: String = "",
+    val editItemName: String = "",
+    val editItemCategory: String = "",
+    val editItemPrice: String = "",
+    val editItemQuantity: String = ""
 )
