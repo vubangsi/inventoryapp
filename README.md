@@ -30,32 +30,32 @@ A comprehensive single-activity Android application implementing an inventory ma
 ## 📸 Screenshots
 
 ### Login Screen
-![Login Screen](images/login_screen.png)
+<img src="images/login_screen.png" alt="Login Screen" width="400">
 
 The login screen provides secure authentication with auto-login functionality using DataStore API for persistent login state.
 
 ### Home Screen
-![Home Screen](images/home_screen.png)
+<img src="images/home_screen.png" alt="Home Screen" width="400">
 
 The home screen displays a daily joke fetched from the Official Joke API and provides easy access to all item categories.
 
 ### Category Item List
-![Category Item List](images/category_item_list(books_category).png)
+<img src="images/category_item_list(books_category).png" alt="Category Item List" width="400">
 
 Each category displays items with edit and delete options, plus a floating action button for adding new items.
 
 ### Add Item Modal
-![Add Item Modal](images/add_item_modal.png)
+<img src="images/add_item_modal.png" alt="Add Item Modal" width="400">
 
 Modal dialog for adding new inventory items with validation for name, price, and quantity fields.
 
 ### Edit Item Modal
-![Edit Item Modal](images/edit_item_modal.png)
+<img src="images/edit_item_modal.png" alt="Edit Item Modal" width="400">
 
 Comprehensive edit dialog with all four fields: name, category, price, and quantity for complete item management.
 
 ### Item Detail Screen
-![Item Detail Screen](images/item_detail_screen.png)
+<img src="images/item_detail_screen.png" alt="Item Detail Screen" width="400">
 
 Dedicated screen showing detailed item information with options to edit or delete the item.
 
@@ -484,7 +484,7 @@ This application fully satisfies all grading criteria for a total of **36 points
 
 **Developed by**: Mercel Vubangsi  
 **Course**: Mobile Application Development  
-**Institution**: [University Name]  
+**Institution**: Maharishi International University  
 **Date**: October 2024
 
 ---
