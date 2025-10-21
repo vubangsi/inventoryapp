@@ -14,18 +14,15 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
-import com.mercel.inventoryapp.data.repository.InMemoryInventoryRepository
 import com.mercel.inventoryapp.features.productdetail.viewmodel.ProductDetailViewModel
+import com.mercel.inventoryapp.utils.ViewModelFactory
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ProductDetailScreen(
     itemId: Int,
     onBackClick: () -> Unit,
-    viewModel: ProductDetailViewModel = viewModel {
-        val repository = InMemoryInventoryRepository()
-        ProductDetailViewModel(repository, itemId)
-    }
+    viewModel: ProductDetailViewModel = viewModel(factory = ViewModelFactory(LocalContext.current, itemId = itemId))
 ) {
     val uiState by viewModel.uiState.collectAsState()
     
